@@ -1,23 +1,21 @@
 body {
-    background: rgb(14, 13, 34);
-    color: white;
+  background-color: rgb(14, 13, 34);
+  color: white;
 }
-
 
 .start-game {
-    color: white;
-    background-color: rgb(14, 13, 34);
-   border: none;
-      padding: 1rem 1.5rem;
+  color: white;
+  background-color: rgb(14, 13, 34);
+  border: none;
+  padding: 1rem 1.5rem;
 }
 
-.title, .start-game {
-
-    box-shadow:  0 3px 10px rgba(184, 183, 183, 0.115);
-
+.title,
+.start-game {
+  box-shadow: 0 3px 10px rgba(184, 183, 183, 0.115);
 }
 
 .title {
-       padding: 2.5rem 3rem;
-    display: inline-block;
+  padding: 2.5rem 3rem;
+  display: inline-block;
 }
