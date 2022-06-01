@@ -161,7 +161,6 @@ let filteredOperator = [...userSelectOperator].filter(
 
   //add event listener to input type range
   $(document).on("change", "input[type=range]", function () {
-    limit = $("#range_limit").val();
      startGame();
      renderNewQuestion();
   
