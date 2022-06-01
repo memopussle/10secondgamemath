@@ -19,17 +19,27 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="app.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <title>10 Second Maths game</title>
   </head>
   <body>
-      <div class="container">
-          <div class="row">
-              <div class="col-12">
-                  <h2>10 Sec Maths Game</h2>
-                  <h1 id="equation"></h1>
-              </div>
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center display">
+          <h2 class="my-5">10 Sec Maths Game</h2>
+
+
+            <h3 id="time-left">10</h3>
+            <p>second left</p>
+            <h1 id="equation"></h1>
+            <input type="number" id="user-input" class="mt-5"/>
+          
+
+          <!-- display score -->
+          <h4 class="mt-5">Score: <span id="score"></span></h4>
+
+        </div>
       </div>
+    </div>
   </body>
 </html>
