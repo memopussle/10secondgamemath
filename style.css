@@ -1,5 +1,5 @@
-html {
-  background-color: rgb(14, 13, 34);
+body {
+  background-color: rgb(14, 13, 34) !important;
   color: white;
 }
 
