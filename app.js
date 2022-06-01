@@ -7,33 +7,36 @@ $(document).ready(function () {
   let timeLeft = 10; //Interval call back function into a count down
   let score = 0;
   let highScore = 0;
-  let limit = $("#range_limit");
+  let limit = $("#range_limit").val();
   let operator = ""; //for + - * /
   let interval; //keep record of interval ID.
-  let num1 = 0;
-  let num2 = 0;
   const userSelectOperator = $("input[type=checkbox]"); 
-     let filteredOperator = [...userSelectOperator].filter(
-       (element) => element.checked
+let filteredOperator = [...userSelectOperator].filter(
+  (element) => element.checked
   );
-  console.log(filteredOperator);
-  //if it'substract (-) -> index = math.floor(math.random() * 1)
-     let index = Math.floor(Math.random() * filteredOperator.length);
-     let nameOperator = filteredOperator[index].id;
-console.log(nameOperator);
-
- 
 
 
 
-  //get operator+ - * /
-  // const getOperator = userSelectOperator => {
-  //   //   //filter checked input
-  //    let filteredOperator = [...userSelectOperator].filter(element => element.checked);
-  //   let index = Math.floor(Math.random() * checkedOption.length);
-  //   let nameOperator = filteredOperator[index].id;
- 
-  // }
+  //generate + - * / /
+  const getOperator = userSelectOperator => {
+    //   filter checked input
+    let filteredOperator = [...userSelectOperator].filter(
+      (element) => element.checked
+    );
+    //-> Array [ input#substract.ml-3.option-box ]
+    let index = Math.floor(Math.random() * filteredOperator.length);
+    //-> index is always at 0
+    let nameOperator = filteredOperator[index].id;
+    if (nameOperator === "plus") {
+      return "+";
+    } else if(nameOperator === "substract") {
+      return "-";
+    } else if (nameOperator === "multiply") {
+      return "*";
+    } else if (nameOperator === "divide") {
+      return "/";
+    }
+  }
   
 
   const randomNumberGenerator = (limit) => {
@@ -42,20 +45,47 @@ console.log(nameOperator);
   };
 
   //generate random question for equation +
-  let questionGenerator = function () {
+  let questionGenerator = function (limit) {
     let question = {};
     //generate a random number from 1 -> 10
 
     //fire change event on every input
 
-    num1 = randomNumberGenerator(10);
-    num2 = randomNumberGenerator(10);
+    num1 = randomNumberGenerator(limit);
+    num2 = randomNumberGenerator(limit);
 
-    question.answer = num1 + num2;
-    question.equation = String(num1) + "+" + String(num2);
+    operator = getOperator(userSelectOperator);
+
+    //if operator = / 
+    //includes is method for only string & array => convert getEquation to string
+      while ((operator === "/") && getEquation().toString().includes(".")) {
+        num1 = randomNumberGenerator(limit);
+        num2 = randomNumberGenerator(limit);
+    }
+
+    while (operator === "-" && getEquation() < 0) {
+       num1 = randomNumberGenerator(limit);
+       num2 = randomNumberGenerator(limit);
+    }
+    question.equation = String(num1) + " " + operator + " " + String(num2);
+    question.answer = getEquation();
 
     return question;
   };
+
+  // //get equation by determining operator + - * /
+  const getEquation = () => {
+    if (operator === "+") {
+      return num1 + num2;
+    } else if (operator === "-") {
+      return num1 - num2;
+    } else if (operator === "*") {
+      return num1 * num2;
+    } else if (operator === "/") {
+      return num1 / num2;
+    }
+  }
+  
 
   /************** Add 1 to timeLeft when user gets answer correct   ************** */
   const updateTimeLeft = (amount) => {
@@ -65,7 +95,7 @@ console.log(nameOperator);
 
   /* ******************Inject the equation into the DOM******************* */
   const renderNewQuestion = function () {
-    currentQuestion = questionGenerator(); //currentQuestion = question
+    currentQuestion = questionGenerator(limit); //currentQuestion = question
     $("#equation").text(currentQuestion.equation);
   };
 
@@ -115,6 +145,7 @@ console.log(nameOperator);
     }
   };
 
+ 
   //event listener "keyup": when the user releases a key (on the keyboard)
   $("#user-input").on("keyup", function () {
     startGame();
@@ -127,6 +158,20 @@ console.log(nameOperator);
   $(".start-game").on("click", function () {
     startGame();
   });
+
+  //add event listener to input type range
+  $(document).on("change", "input[type=range]", function () {
+    limit = $("#range_limit").val();
+     startGame();
+     renderNewQuestion();
+  
+  });
+  
+  $(document).on("click", "input[type=checkbox]", function () {
+    startGame();
+    renderNewQuestion();
+ })
+
 
   //a new question is generated when user's input is correct.
   renderNewQuestion();
