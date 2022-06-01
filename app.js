@@ -10,15 +10,13 @@ $(document).ready(function () {
   let limit = $("#range_limit").val();
   let operator = ""; //for + - * /
   let interval; //keep record of interval ID.
-  const userSelectOperator = $("input[type=checkbox]"); 
-let filteredOperator = [...userSelectOperator].filter(
-  (element) => element.checked
+  const userSelectOperator = $("input[type=checkbox]");
+  let filteredOperator = [...userSelectOperator].filter(
+    (element) => element.checked
   );
 
-
-
   //generate + - * / /
-  const getOperator = userSelectOperator => {
+  const getOperator = (userSelectOperator) => {
     //   filter checked input
     let filteredOperator = [...userSelectOperator].filter(
       (element) => element.checked
@@ -27,17 +25,17 @@ let filteredOperator = [...userSelectOperator].filter(
     let index = Math.floor(Math.random() * filteredOperator.length);
     //-> index is always at 0
     let nameOperator = filteredOperator[index].id;
+
     if (nameOperator === "plus") {
       return "+";
-    } else if(nameOperator === "substract") {
+    } else if (nameOperator === "substract") {
       return "-";
     } else if (nameOperator === "multiply") {
       return "*";
     } else if (nameOperator === "divide") {
       return "/";
     }
-  }
-  
+  };
 
   const randomNumberGenerator = (limit) => {
     //math.ceil: round the number up to the next interger
@@ -56,16 +54,16 @@ let filteredOperator = [...userSelectOperator].filter(
 
     operator = getOperator(userSelectOperator);
 
-    //if operator = / 
+    //if operator = /
     //includes is method for only string & array => convert getEquation to string
-      while ((operator === "/") && getEquation().toString().includes(".")) {
-        num1 = randomNumberGenerator(limit);
-        num2 = randomNumberGenerator(limit);
+    while (operator === "/" && getEquation().toString().includes(".")) {
+      num1 = randomNumberGenerator(limit);
+      num2 = randomNumberGenerator(limit);
     }
 
     while (operator === "-" && getEquation() < 0) {
-       num1 = randomNumberGenerator(limit);
-       num2 = randomNumberGenerator(limit);
+      num1 = randomNumberGenerator(limit);
+      num2 = randomNumberGenerator(limit);
     }
     question.equation = String(num1) + " " + operator + " " + String(num2);
     question.answer = getEquation();
@@ -84,8 +82,7 @@ let filteredOperator = [...userSelectOperator].filter(
     } else if (operator === "/") {
       return num1 / num2;
     }
-  }
-  
+  };
 
   /************** Add 1 to timeLeft when user gets answer correct   ************** */
   const updateTimeLeft = (amount) => {
@@ -145,7 +142,6 @@ let filteredOperator = [...userSelectOperator].filter(
     }
   };
 
- 
   //event listener "keyup": when the user releases a key (on the keyboard)
   $("#user-input").on("keyup", function () {
     startGame();
@@ -153,24 +149,20 @@ let filteredOperator = [...userSelectOperator].filter(
     checkAnswer(Number($(this).val()), currentQuestion.answer);
   });
 
-  
-
   $(".start-game").on("click", function () {
     startGame();
   });
 
   //add event listener to input type range
   $(document).on("change", "input[type=range]", function () {
-     startGame();
-     renderNewQuestion();
-  
+    limit = $("output").text();
+    renderNewQuestion(limit);
   });
-  
+
   $(document).on("click", "input[type=checkbox]", function () {
     startGame();
     renderNewQuestion();
- })
-
+  });
 
   //a new question is generated when user's input is correct.
   renderNewQuestion();
