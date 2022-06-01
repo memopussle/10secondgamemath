@@ -1,8 +1,23 @@
 body {
-    background-image: url(img/background.jpg);
+    background: rgb(14, 13, 34);
     color: white;
 }
 
-.display {
-    transform: translateY(50%);
+
+.start-game {
+    color: white;
+    background-color: rgb(14, 13, 34);
+   border: none;
+      padding: 1rem 1.5rem;
+}
+
+.title, .start-game {
+
+    box-shadow:  0 3px 10px rgba(184, 183, 183, 0.115);
+
+}
+
+.title {
+       padding: 2.5rem 3rem;
+    display: inline-block;
 }
