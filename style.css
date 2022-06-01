@@ -1,4 +1,4 @@
-body {
+body, .display {
   background-color: rgb(14, 13, 34);
   color: white;
 }
