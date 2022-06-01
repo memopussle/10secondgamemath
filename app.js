@@ -160,8 +160,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "input[type=checkbox]", function () {
-    startGame();
-    renderNewQuestion();
+    renderNewQuestion(limit);
   });
 
   //a new question is generated when user's input is correct.
