@@ -37,13 +37,13 @@ $(document).ready(function () {
     }
   };
 
-  const randomNumberGenerator = (limit) => {
+  const randomNumberGenerator = (number) => {
     //math.ceil: round the number up to the next interger
-    return Math.ceil(Math.random() * limit);
+    return Math.ceil(Math.random() * number);
   };
 
   //generate random question for equation +
-  let questionGenerator = function (limit) {
+  let questionGenerator = function () {
     let question = {};
     //generate a random number from 1 -> 10
 
@@ -61,11 +61,25 @@ $(document).ready(function () {
       num2 = randomNumberGenerator(limit);
     }
 
-    while (operator === "-" && getEquation() < 0) {
-      num1 = randomNumberGenerator(limit);
-      num2 = randomNumberGenerator(limit);
+    // another way to calculate - : if operator = "-", rank larger number on the left
+
+    // while (operator === "-" && getEquation() < 0) {
+    //   num1 = randomNumberGenerator(limit);
+    //   num2 = randomNumberGenerator(limit);
+    // }
+
+    // another way to calculate / : num3 = num1 * num2. return num3 / num2 => positive whole number answer 
+
+    //push larger number on the left
+    if (operator === "-") {
+      if (num1 > num2) {
+        question.equation = String(num1) + " " + operator + " " + String(num2);
+      } else {
+        question.equation = String(num2) + " " + operator + " " + String(num1);
+      }
+    } else if (operator === "/") {
+      question.equation = String(num1) + " " + operator + " " + String(num2);
     }
-    question.equation = String(num1) + " " + operator + " " + String(num2);
     question.answer = getEquation();
 
     return question;
@@ -76,11 +90,21 @@ $(document).ready(function () {
     if (operator === "+") {
       return num1 + num2;
     } else if (operator === "-") {
-      return num1 - num2;
+      return compareNum1AndNum2(num1, num2);
     } else if (operator === "*") {
       return num1 * num2;
     } else if (operator === "/") {
       return num1 / num2;
+    }
+  };
+
+  const compareNum1AndNum2 = (num1, num2) => {
+    if (num1 > num2) {
+      return num1 - num2;
+    } else if (num1 < num2) {
+      return num2 - num1;
+    } else {
+      return num1 - num2;
     }
   };
 
@@ -92,7 +116,7 @@ $(document).ready(function () {
 
   /* ******************Inject the equation into the DOM******************* */
   const renderNewQuestion = function () {
-    currentQuestion = questionGenerator(limit); //currentQuestion = question
+    currentQuestion = questionGenerator(); //currentQuestion = question
     $("#equation").text(currentQuestion.equation);
   };
 
